@@ -10,27 +10,42 @@
 class WindowManager {
 
 	//typedef for cleaner code
-	using WindowPtr = std::shared_ptr<GLFWwindow>;
+	using WindowPtr = GLFWwindow*;
 
 public:
+
+	WindowManager() {};
+	~WindowManager() {};
+
+
 	/**
-	 *	@brief	Intialize glfw and set all values for the window
-	 *	@return	True if startup is successfull, false otherwise
+	 *	@brief Check if the glfw window should close
+	 *	@return 0 if the window should close, 1 otherwise
 	 */
-	static bool startUp();
-	
+	int checkForClose();
+
 	/**
-	 *	@brief	Makes a window the current context
+	*	@brief resets buffer bits and also clears the screen
+	*/
+	void cleanUpBuffer();
+
+	/**
+	 *	@breif Allow glfw poll for events
 	 */
-	static void makeContextCurrent(WindowPtr &window);
+	void pollEvents();
 
 	/**
 	*	@brief	Assign callback function to a window for input
 	*	@param	window	The target window
 	*	@param	cbfun	The key input handler
 	*/
-	static void registerKeyCallback(WindowPtr &window, GLFWkeyfun cbfun);
-
+	void registerKeyCallback(GLFWkeyfun cbfun);
+	
+	/**
+	*	@brief render items onto the screen
+	*/
+	void render();
+	
 	/**
 	 *	@brief	Set glfw hints
 	 *	@param	target	Hint to be changed
@@ -39,9 +54,20 @@ public:
 	static void setHint(const int target, const int value);
 
 	/**
-	 *	@brief	Destruct the object and terminate glfw
+	*	@brief	Destruct the object and terminate glfw
+	*/
+	void shutDown();
+
+	/**
+	*	@brief	Intialize glfw and set all values for the window
+	*	@return	True if startup is successfull, false otherwise
+	*/
+	bool startUp();
+
+	/**
+	 *	@brief Swap front and back framebuffer
 	 */
-	static void shutDown();
+	void swapFrameBuffer();
 
 private:
 	/**
@@ -53,10 +79,8 @@ private:
 	 *	@brief	GLFW Window being managed
 	 */
 	WindowPtr window;
-
-	//Prevent compiler from generating the following methods
-	WindowManager();
-	~WindowManager();
+	
+	//Disable copy contructor/operator
 	WindowManager(const WindowManager&);
 	WindowManager& operator=(const WindowManager&);
 

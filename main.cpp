@@ -1,57 +1,26 @@
-//File: main.cpp
-//Author: Leon Becker
-//E-mail: LeonAlexBecker@gmail.com
 #include <iostream>
 #include <GLFW\glfw3.h>
+#include "WindowManager.hpp"
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-		glfwSetWindowShouldClose(window, GLFW_TRUE);
-		std::cout << "Escape key was pressed" << std::endl;
-	}
-}
 
 int main() {
-	//Intialize library
-	if (!glfwInit()) {
-		return -1;
-	}
+	WindowManager windowManager;
 	
-	//Set hints so the window knows what opengl version we are targeting
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-
-
-	//Create a windowed mode window and its OpenGl context
-	GLFWwindow *window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-	
-	//Check if window has been made
-	if (!window){
-		std::cerr << "Failed to create a GLFW window." << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-	
-	//add input callback to window
-	glfwSetKeyCallback(window, key_callback);
-
-	//Make the window's context current
-	glfwMakeContextCurrent(window);
+	windowManager.startUp();
 
 	//Loop until the user closes the window
-	while (!glfwWindowShouldClose(window)) {
-
-		//render here
-		glClear(GL_COLOR_BUFFER_BIT);
+	while (!windowManager.checkForClose()) {
+		//Reset the screen and buffers
+		windowManager.cleanUpBuffer();
 
 		//swap front and back buffers
-		glfwSwapBuffers(window);
+		windowManager.swapFrameBuffer();
 
 		//pool for and process events
-		glfwPollEvents();
+		windowManager.pollEvents();
 	}
 
-	glfwTerminate();
+	windowManager.shutDown();
 	return 0;
 }
 
