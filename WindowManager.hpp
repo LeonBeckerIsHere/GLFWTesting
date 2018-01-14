@@ -1,10 +1,10 @@
 //File: WindowManager.hpp
 //Author: Leon Becker
 //E-mail: LeonAlexBecker@gmail.com
-#ifndef WINDOW_MANAGER_H
-#define WINDOW_MANAGER_H
+#ifndef WINDOW_MANAGER_HPP
+#define WINDOW_MANAGER_HPP
 
-#include <memory>
+#include <glad\glad.h>
 #include <GLFW\glfw3.h>
 
 class WindowManager {
@@ -14,8 +14,15 @@ class WindowManager {
 
 public:
 
-	WindowManager() {};
-	~WindowManager() {};
+	/**	Empty constructor
+	 *	Initialization of the object is done in startUp()
+	 */
+	WindowManager();
+
+	/**	Empty deconstructor
+	*	Window gets destroyed in shutDown()
+	*/
+	~WindowManager();
 
 
 	/**
@@ -30,13 +37,17 @@ public:
 	void cleanUpBuffer();
 
 	/**
+	 *	@brief Assign the callback when the client resizes the window
+	 */
+	void registerFrameBufferResizeCallback(GLFWframebuffersizefun fun);
+
+	/**
 	 *	@breif Allow glfw poll for events
 	 */
 	void pollEvents();
 
 	/**
 	*	@brief	Assign callback function to a window for input
-	*	@param	window	The target window
 	*	@param	cbfun	The key input handler
 	*/
 	void registerKeyCallback(GLFWkeyfun cbfun);
@@ -75,6 +86,8 @@ private:
 	 */
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
+	static void framebuffer_resize_callback(GLFWwindow* window, int width, int height);
+
 	/**
 	 *	@brief	GLFW Window being managed
 	 */
@@ -86,4 +99,4 @@ private:
 
 };
 
-#endif	//WINDOW_MANAGER_H
+#endif	//WINDOW_MANAGER_HPP

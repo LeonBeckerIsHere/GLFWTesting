@@ -3,6 +3,9 @@
 //E-mail: LeonAlexBecker@gmail.com
 #include "WindowManager.hpp"
 
+WindowManager::WindowManager() {}
+WindowManager::~WindowManager() {}
+
 int WindowManager::checkForClose() {
 	return glfwWindowShouldClose(window);
 }
@@ -10,6 +13,10 @@ int WindowManager::checkForClose() {
 void WindowManager::cleanUpBuffer() {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void WindowManager::framebuffer_resize_callback(GLFWwindow* window, int width, int height) {
+	glViewport(0, 0, width, height);
 }
 
 void WindowManager::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -21,6 +28,10 @@ void WindowManager::key_callback(GLFWwindow* window, int key, int scancode, int 
 
 void WindowManager::pollEvents() {
 	glfwPollEvents();
+}
+
+void WindowManager::registerFrameBufferResizeCallback(GLFWframebuffersizefun fun) {
+	glfwSetFramebufferSizeCallback(window, fun);
 }
 
 void WindowManager::registerKeyCallback(GLFWkeyfun cbfun) {
@@ -55,14 +66,26 @@ bool WindowManager::startUp() {
 	window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
 
 	//Check if the window exists
-	if (!window)
+	if (!window) {
+		glfwTerminate();
 		return false;
+	}
 
 	//Set key callback for the window's input handling
 	registerKeyCallback(WindowManager::key_callback);
 
+	//Set framebuffer resize callback
+	registerFrameBufferResizeCallback(WindowManager::framebuffer_resize_callback);
+
 	//Make the window the current context
 	glfwMakeContextCurrent(window);
+
+	//glad: loads all OpenGl function pointer using 
+	//OS specific function calls
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		glfwTerminate();
+		return false;
+	}
 
 	return true;
 }
