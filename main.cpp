@@ -5,7 +5,7 @@
 int main() {
 
 	//Create a WindowManager object;
-	WindowManager windowManager;
+	WindowManager windowManager(800,600);
 	
 	//Intialize the settings of the WindowManager
 	if (!windowManager.startUp()) {

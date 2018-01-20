@@ -1,3 +1,11 @@
-﻿  WindowManager.cpp
-  GLFW.vcxproj -> C:\Users\LeonA\Documents\Game Engine Architecture Practice\GLFW\Debug\GLFW.exe
-  GLFW.vcxproj -> C:\Users\LeonA\Documents\Game Engine Architecture Practice\GLFW\Debug\GLFW.pdb (Partial PDB)
+﻿  main.cpp
+  WindowManager.cpp
+  RectPrism.cpp
+c:\users\leona\documents\game engine architecture practice\glfw\glfw\rectprism.cpp(4): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\leona\documents\game engine architecture practice\glfw\glfw\rectprism.cpp(60): error C2664: 'void (GLenum,GLsizeiptr,const void *,GLenum)': cannot convert argument 3 from 'std::vector<GLfloat,std::allocator<_Ty>>' to 'const void *'
+          with
+          [
+              _Ty=GLfloat
+          ]
+  c:\users\leona\documents\game engine architecture practice\glfw\glfw\rectprism.cpp(60): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+  Generating Code...

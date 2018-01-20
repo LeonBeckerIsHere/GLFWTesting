@@ -3,7 +3,7 @@
 //E-mail: LeonAlexBecker@gmail.com
 #include "WindowManager.hpp"
 
-WindowManager::WindowManager() {}
+WindowManager::WindowManager(GLuint w=800, GLuint h=600): width(w),height(h){}
 WindowManager::~WindowManager() {}
 
 int WindowManager::checkForClose() {
@@ -14,6 +14,15 @@ void WindowManager::cleanUpBuffer() {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void WindowManager::disableGLOption(GLenum target) {
+	glDisable(target);
+}
+
+void WindowManager::enableGLOption(GLenum target) {
+	glEnable(target);
+}
+
 
 void WindowManager::framebuffer_resize_callback(GLFWwindow* window, int width, int height) {
 	glViewport(0, 0, width, height);
@@ -63,7 +72,7 @@ bool WindowManager::startUp() {
 	WindowManager::setHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//Create the window to be managed
-	window = glfwCreateWindow(800, 600, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
 
 	//Check if the window exists
 	if (!window) {

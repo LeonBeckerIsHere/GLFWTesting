@@ -17,7 +17,7 @@ public:
 	/**	Empty constructor
 	 *	Initialization of the object is done in startUp()
 	 */
-	WindowManager();
+	WindowManager(GLuint w, GLuint h);
 
 	/**	Empty deconstructor
 	*	Window gets destroyed in shutDown()
@@ -35,16 +35,28 @@ public:
 	*	@brief resets buffer bits and also clears the screen
 	*/
 	void cleanUpBuffer();
+	
+	/**
+	*	@brief	Disables the specified gl option (e.g. depth testing, alpha blending, etc.)
+	*	@param	target	Option to disable
+	*/
+	static void disableGLOption(GLenum target);
 
 	/**
-	 *	@brief Assign the callback when the client resizes the window
+	 *	@brief	Enables the specified gl option (e.g. depth testing, alpha blending, etc.)
+	 *	@param	target	Option to enable	
 	 */
-	void registerFrameBufferResizeCallback(GLFWframebuffersizefun fun);
+	static void enableGLOption(GLenum target);
 
 	/**
 	 *	@breif Allow glfw poll for events
 	 */
 	void pollEvents();
+
+	/**
+	*	@brief Assign the callback when the client resizes the window
+	*/
+	void registerFrameBufferResizeCallback(GLFWframebuffersizefun fun);
 
 	/**
 	*	@brief	Assign callback function to a window for input
@@ -81,6 +93,10 @@ public:
 	void swapFrameBuffer();
 
 private:
+	//GLFW Window that is managed by the class
+	WindowPtr window;
+	//Dimensions of the window
+	GLuint width, height;
 	/**
 	 *	@brief	For key inputs
 	 */
@@ -88,10 +104,7 @@ private:
 
 	static void framebuffer_resize_callback(GLFWwindow* window, int width, int height);
 
-	/**
-	 *	@brief	GLFW Window being managed
-	 */
-	WindowPtr window;
+
 	
 	//Disable copy contructor/operator
 	WindowManager(const WindowManager&);
